@@ -1,0 +1,9 @@
+version: '3.5'
+
+services:
+  app:
+    build: .
+    env_file: .env
+    network_mode: "host"
+    restart: on-failure
+    command: "ffmpeg -rtsp_transport tcp -i rtsp://${CAMERA_USER}:${CAMERA_PWD}@${CAMERA_IP}:${CAMERA_PORT}//${CAMERA_STREAM} -an -map 0:0 -f mpegts -codec:v mpeg1video -s 640x360 https://${REMOTE_HOST}:${REMOTE_PORT}/${CAMERA_SECRET}"
